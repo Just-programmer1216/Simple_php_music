@@ -7,13 +7,13 @@ $username_email_err = $password_err = "";
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (empty(trim($_POST["username_email"]))) {
-        $username_email_err = "Wprowadź nazwę użytkownika lub e-mail.";
+        $username_email_err = "Wprowadź nazwę użytkownika lub e-mail!";
     } else {
         $username_email = trim($_POST["username_email"]);
     }
 
     if (empty(trim($_POST["password"]))) {
-        $password_err = "Wprowadź hasło.";
+        $password_err = "Wprowadź hasło!";
     } else {
         $password = trim($_POST["password"]);
     }
@@ -37,14 +37,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             header("location: Other_pages/main.php");
                             exit;
                         } else {
-                            $password_err = "Nieprawidłowe hasło.";
+                            $password_err = "Nieprawidłowe hasło!";
                         }
                     }
                 } else {
-                    $username_email_err = "Nie znaleziono użytkownika.";
+                    $username_email_err = "Nie znaleziono użytkownika!";
                 }
             } else {
-                echo "Błąd logowania.";
+                echo "Błąd logowania!";
             }
         }
         $stmt->close();
@@ -58,26 +58,29 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="login_style.css">
     <title>Logowanie</title>
-    <link rel="stylesheet" href="Style/style.css">
+    <link rel="stylesheet" href="login_style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Julius+Sans+One&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Judson&display=swap" rel="stylesheet">
 </head>
 <body>
-    <div class="container">
+    <h1>MelodyBox</h1>
+    <form action="login.php" method="post">
         <div>
-            <h2>Logowanie</h2>
-            <p>Wprowadź swoje dane, aby się zalogować.</p>
-                <form action="login.php" method="post">
-                    <label>Nazwa użytkownika lub e-mail:</label>
-                    <input type="text" name="username_email" required>
-                    <span><?php echo $username_email_err; ?></span>
+            <h2>Log in</h2>
+        </div>
+        <label>Username or e-mail:</label>
+        <input type="text" name="username_email" required>
+        <span><?php echo $username_email_err; ?></span>
 
-                    <label>Hasło:</label>
-                    <input type="password" name="password" required>
-                    <span><?php echo $password_err; ?></span>
+        <label>Password:</label>
+        <input type="password" name="password" required>
+        <span><?php echo $password_err; ?></span>
 
-                    <button type="submit">Zaloguj się</button>
-                </form>
-        <p>Nie masz konta? <a href="Login/register.php">Zarejestruj się tutaj</a>.</p>
-    </div>
+        <input type="submit" value="Log in"></input>
+        <p>Haven't an account? <a href="Login/register.php">Sign up</a>.</p>
+    </form>
+
 </body>
 </html>

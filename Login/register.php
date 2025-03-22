@@ -1,12 +1,12 @@
 <?php
 require_once "../DataBase/config.php";
 
-$username = $password = $confirm_password = "";
-$username_err = $password_err = $confirm_password_err = "";
+$email = $username = $password = $confirm_password = "";
+$email_err = $username_err = $password_err = $confirm_password_err = "";
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (empty(trim($_POST["username"]))) {
-        $username_err = "Wprowadź nazwę użytkownika.";
+        $username_err = "Wprowadź nazwę użytkownika!";
     } else {
         $sql = "SELECT user_id FROM users WHERE username = ?";
         if ($stmt = $mysqli->prepare($sql)) {
@@ -15,7 +15,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             if ($stmt->execute()) {
                 $stmt->store_result();
                 if ($stmt->num_rows == 1) {
-                    $username_err = "Ta nazwa użytkownika jest już zajęta.";
+                    $username_err = "Ta nazwa użytkownika jest już zajęta!";
                 } else {
                     $username = trim($_POST["username"]);
                 }
@@ -27,19 +27,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 
     if (empty(trim($_POST["password"]))) {
-        $password_err = "Wprowadź hasło.";
+        $password_err = "Wprowadź hasło!";
     } elseif (strlen(trim($_POST["password"])) < 6) {
-        $password_err = "Hasło musi mieć co najmniej 6 znaków.";
+        $password_err = "Hasło musi mieć co najmniej 6 znaków!";
     } else {
         $password = trim($_POST["password"]);
     }
 
     if (empty(trim($_POST["confirm_password"]))) {
-        $confirm_password_err = "Potwierdź hasło.";
+        $confirm_password_err = "Potwierdź hasło!";
     } else {
         $confirm_password = trim($_POST["confirm_password"]);
         if ($password != $confirm_password) {
-            $confirm_password_err = "Hasła nie pasują do siebie.";
+            $confirm_password_err = "Hasła nie pasują do siebie!";
         }
     }
 
@@ -68,30 +68,36 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Rejestracja</title>
-    <link rel="stylesheet" href="../Style/style.css">
+    <link rel="stylesheet" type="text/css" href="register_style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Julius+Sans+One&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Judson&display=swap" rel="stylesheet">
 </head>
-    <div class="container">
-        <h2>Rejestracja</h2>
-        <p>Wypełnij poniższy formularz, aby utworzyć konto.</p>
-            <form action="register.php" method="post">
-                <label>Nazwa użytkownika:</label>
-                <input type="text" name="username">
-                <span><?php echo $username_err; ?></span>
+<body>
+    <h1>MelodyBox</h1>
+    <form action="register.php" method="post">
+        <div>
+            <h2>Registration</h2>
+        </div>
+        <label>Username:</label>
+        <input type="text" name="username">
+        <span><?php echo $username_err; ?></span>
 
-                <label>Email:</label>
-                <input type="email" name="email">
+        <label>Email:</label>
+        <input type="email" name="email">
+        <span><?php echo $email_err; ?></span>
                 
-                <label>Hasło:</label>
-                <input type="password" name="password">
-                <span><?php echo $password_err; ?></span>
+        <label>Password:</label>
+        <input type="password" name="password">
+        <span><?php echo $password_err; ?></span>
 
-                <label>Potwierdź hasło:</label>
-                <input type="password" name="confirm_password">
-                <span><?php echo $confirm_password_err; ?></span>
+        <label>Confirm password:</label>
+        <input type="password" name="confirm_password">
+        <span><?php echo $confirm_password_err; ?></span>
 
-                <input type="submit" value="Zarejestruj się">
-            </form>
-        <p>Masz już konto? <a href="../login.php">Zaloguj się tutaj</a>.</p>
+        <input type="submit" value="Sign up">
+        <p>Already registered? <a href="../login.php">Log in</a>.</p>
+    </form>
+        
     </div>
 </body>
 </html>

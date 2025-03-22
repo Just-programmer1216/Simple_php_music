@@ -58,31 +58,80 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dodaj piosenkę</title>
-    <link rel="stylesheet" href="../Style/style.css">
+    <link rel="stylesheet" href="add_song_style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Julius+Sans+One&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Judson&display=swap" rel="stylesheet">
 </head>
 <body>
-    <div class="container">
-        <h2>Dodaj nową piosenkę</h2>
-        <form action="add_song.php" method="post">
-            <label>Nazwa:</label>
-            <input type="text" name="name" required>
-            <span><?php echo $name_err; ?></span>
-
-            <label>Wykonawca:</label>
-            <input type="text" name="artist" required>
+<header>
+        <input type="checkbox" id="list">
+        <h1>MelodyBox</h1>
+        <div class="opened_menu">
+            <a class="icon" href="main.php">
+                <img src="../Untitled/Home.png">
+                <p>Home</p>
+            </a>
+            <a class="icon_active">
+                <img src="../Untitled/Add song_black.png">
+                <p>Add song</p>
+            </a>
+            <a class="icon" href="favorites.php">
+                <img src="../Untitled/Heart-1.png">
+                <p>Favorites</p>
+            </a>
+            <a class="icon" href="profile.php">
+                <img src="../Untitled/User.png">
+                <p>Account</p>
+            </a>
+            <a class="icon" href="../Login/logout.php">
+                <img src="../Untitled/Log out.png">
+                <p>Log out</p>
+            </a>
+        </div>
+        
+        <div class="menu">
+            <a class="icon" href="main.php">
+                <img src="../Untitled/Home.png">
+                <p>Home</p>
+            </a>
+            <a class="icon_active">
+                <img src="../Untitled/Add song_black.png">
+                <p>Add song</p>
+            </a>
+            <a class="icon" href="favorites.php">
+                <img src="../Untitled/Heart-1.png">
+                <p>Favorites</p>
+            </a>
+            <a class="icon" href="profile.php">
+                <img src="../Untitled/User.png">
+                <p>Account</p>
+            </a>
+            <a class="icon" href="../Login/logout.php">
+                <img src="../Untitled/Log out.png">
+                <p>Log out</p>
+            </a>
+        </div>
+    </header>
+    <form action="add_song.php" method="post">
+        <h2>Add new song</h2>
+        <div class="inputs">
+            <input type="text" name="artist" placeholder="Artist">
             <span><?php echo $artist_err; ?></span>
 
-            <label>Gatunek:</label>
-            <input type="text" name="genre" required>
-            <span><?php echo $genre_err; ?></span>
+            <input type="text" name="name" placeholder="Song name">
+            <span><?php echo $name_err; ?></span>
 
-            <label>Czas trwania (HH:MM:SS):</label>
-            <input type="text" name="duration" required>
+            <input type="text" name="duration" placeholder="Duration">
             <span><?php echo $duration_err; ?></span>
 
-            <button type="submit">Dodaj piosenkę</button>
-        </form>
-        <a href="main.php" class="btn">Powrót do listy piosenek</a>
-    </div>
+            <input type="text" name="genre" placeholder="Genre">
+            <span><?php echo $genre_err; ?></span>
+        </div>
+        <div class="send">
+            <div></div>
+            <input type="submit" value="Submit">
+        </div>
+        
+    </form>
 </body>
 </html>
