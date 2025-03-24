@@ -79,7 +79,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <span><?php echo $password_err; ?></span>
 
         <input type="submit" value="Log in"></input>
-        <p>Haven't an account? <a href="Login/register.php">Sign up</a>.</p>
+        <p>Don't have an account? <a href="Login/register.php">Sign up</a>.</p>
     </form>
 
 </body>
