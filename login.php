@@ -71,11 +71,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <h2>Log in</h2>
         </div>
         <label>Username or e-mail:</label>
-        <input type="text" name="username_email" required>
+        <input type="text" name="username_email">
         <span><?php echo $username_email_err; ?></span>
 
         <label>Password:</label>
-        <input type="password" name="password" required>
+        <input type="password" name="password">
         <span><?php echo $password_err; ?></span>
 
         <input type="submit" value="Log in"></input>
