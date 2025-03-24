@@ -1,3 +1,26 @@
+<?php
+session_start();
+require_once "../DataBase/config.php";
+
+if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true) {
+    header("location: ../login.php");
+    exit;
+}
+
+$user_id = $_SESSION["user_id"];
+$username = $_SESSION["username"];
+$email = "";
+
+$sql = "SELECT email FROM users WHERE user_id = ?";
+if ($stmt = $mysqli->prepare($sql)) {
+    $stmt->bind_param("i", $user_id);
+    $stmt->execute();
+    $stmt->bind_result($email);
+    $stmt->fetch();
+    $stmt->close();
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -65,11 +88,11 @@
         <div class="inputs">
             <div class="block">
                 <label>Name</label>
-                <input type="text" name="name" readonly>
+                <input type="text" name="name" value="<?php echo htmlspecialchars($username); ?>" readonly>
             </div>
             <div class="block">
                 <label>E-mail</label>
-                <input type="text" name="mail" readonly>
+                <input type="text" name="mail" value="<?php echo htmlspecialchars($email); ?>" readonly>
             </div>
         </div>
         

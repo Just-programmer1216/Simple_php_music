@@ -7,8 +7,21 @@ if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true) {
     exit;
 }
 
+$user_id = $_SESSION["user_id"];
+
 $sql = "SELECT * FROM music";
 $result = $mysqli->query($sql);
+
+$fav_sql = "SELECT music_id FROM favorite_songs WHERE user_id = ?";
+$fav_stmt = $mysqli->prepare($fav_sql);
+$fav_stmt->bind_param("i", $user_id);
+$fav_stmt->execute();
+$fav_result = $fav_stmt->get_result();
+
+$fav_ids = [];
+while ($fav = $fav_result->fetch_assoc()) {
+    $fav_ids[] = $fav['music_id'];
+}
 ?>
 
 <!DOCTYPE html>
@@ -72,7 +85,7 @@ $result = $mysqli->query($sql);
             </a>
         </div>
     </header>
-    <h2><?php echo "Welcome, ".$_SESSION['user_id']."!" ;?></h2>
+    <h2><?php echo "Welcome, ".$_SESSION['username']." !" ;?></h2>
     <section>
         <?php while ($row = $result->fetch_assoc()): ?>
         <div class="song">
@@ -89,8 +102,9 @@ $result = $mysqli->query($sql);
                     <p style="color: #444"><?php echo htmlspecialchars($row['duration']); ?></p>
                 </div>
             </div>
-            <form>
-                <input type="checkbox" id="Favoriting">
+            <form action="add_favorite.php" method="post">
+                <input type="hidden" name="music_id" value="<?php echo $row['music_id']; ?>">
+                <input type="checkbox" name="favorite" id="Favoriting" onchange="this.form.submit()"<?php if (in_array($row['music_id'], $fav_ids)) echo 'checked'; ?>>
             </form>
         </div>
         <?php endwhile; ?>

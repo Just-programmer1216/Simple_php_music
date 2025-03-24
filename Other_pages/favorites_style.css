@@ -183,6 +183,11 @@ form{
     display: none;
 }
 
+section p{
+    color:#fff;
+    text-align: center;
+}
+
 @media (max-width: 1080px) {
     .menu{
         display: none;

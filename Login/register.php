@@ -26,6 +26,31 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $stmt->close();
     }
 
+    
+    if (empty(trim($_POST["email"]))) {
+        $email_err = "Wprowadź adres e-mail.";
+    } else {
+        $email = trim($_POST["email"]);
+        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            $email_err = "Nieprawidłowy adres e-mail.";
+        } else {
+            $sql = "SELECT user_id FROM users WHERE email = ?";
+            if ($stmt = $mysqli->prepare($sql)) {
+                $stmt->bind_param("s", $param_email);
+                $param_email = $email;
+                if ($stmt->execute()) {
+                    $stmt->store_result();
+                    if ($stmt->num_rows == 1) {
+                        $email_err = "Ten adres e-mail jest już używany.";
+                    }
+                } else {
+                    echo "Błąd zapytania do bazy danych (email).";
+                }
+                $stmt->close();
+            }
+        }
+    }
+
     if (empty(trim($_POST["password"]))) {
         $password_err = "Wprowadź hasło!";
     } elseif (strlen(trim($_POST["password"])) < 6) {
@@ -43,7 +68,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
     }
 
-    if (empty($username_err) && empty($password_err) && empty($confirm_password_err)) {
+    if (empty($username_err) && empty($password_err) && empty($confirm_password_err) && empty($email_err)) {
         $sql = "INSERT INTO users (username, password, email) VALUES (?, ?, ?)";
         if ($stmt = $mysqli->prepare($sql)) {
             $stmt->bind_param("sss", $param_username, $param_password, $param_email);
